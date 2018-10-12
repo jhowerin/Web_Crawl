@@ -1,0 +1,16 @@
+{
+  "name": "web_crawler",
+  "version": "1.0.0",
+  "description": "Web Crawle",
+  "main": "crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jake",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.65.0",
+    "url-parse": "^1.0.5"
+  }
+}
