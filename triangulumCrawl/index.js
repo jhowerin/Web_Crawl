@@ -2,7 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var URL = require('url-parse');
 
-var initial_URL = 'http://www.espn.com';
+var initial_URL = 'http://www.madpackets.com';
 var maxDepth = 10;
 
 var search_queue = [initial_URL];
@@ -22,13 +22,16 @@ var number_of_pages = 0;
 //Begin Crawler
 function crawl(){
 
-  if(number_of_pages > 5){
+  if(number_of_pages > 1){
     console.log("We've reached our max");
     return;
   }
+
   //crawl
   // pop the current node from the search_queue - ie shift
   var current = search_queue.shift();
+  console.log("***********************CURRENT URL***********************")
+  console.log(current);
   // push the current node to the nodes_visisted list
   nodes_visited.push(current);
   number_of_pages++;
@@ -38,17 +41,26 @@ function crawl(){
   request(current, function(error, response, body) {
     console.log('error:', error);
     console.log('status code:', response && response.statusCode);
-    console.log('body:', body);
-
+    // console.log('body:', body);
     // so now we have the web page body ready for parsing using cheerio
     // see example from the cheerio npm documentation
-    const $ = cheerio.load(body);
-    link = $("a");
-    search_queue.push(link);
-
+    //https://stackoverflow.com/questions/15343292/extract-all-hyperlinks-from-external-website-using-node-js-and-request
+    $ = cheerio.load(body);
+    links = $('a'); //jquery get all hyperlinks
+    title = $('title')
+    //console.log(`The title is ${title}`)
+    console.log("***********************Found Link***********************")
+    $(links).each(function(i, link){
+      //console.log($(link).text() + ':\n  ' + $(link).attr('href'));
+      foundLink = $(link).attr('href');
+      console.log(foundLink);
+      search_queue.push(foundLink);
+    });
+    console.log("*********************************************************")
+    // recursive call to crawl - note we have a termination check by the number_of_pages for now
+    printQueue();
+    crawl();
   });
-
-  crawl();
 
 }
 
@@ -66,4 +78,3 @@ function printQueue(){
 }
 
 crawl();
-printQueue();
