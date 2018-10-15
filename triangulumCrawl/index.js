@@ -12,12 +12,10 @@ var number_of_pages = 0;
 //in the sample code, we'll just visit a few pages so we'll use the number_of_pages var
 //to terminate at a certain value (say 10 pages).
 
-
 //this is how you push - this goes to the end of the queue
 //search_queue.push(secondURL);
 //This is how you remove from the front of the queue
 //search_queue.shift()
-
 
 //Begin Crawler
 function crawl(){
